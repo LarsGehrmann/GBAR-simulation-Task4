@@ -1,4 +1,4 @@
-    #include <iostream>
+#include <iostream>
 #include <chrono>
 #include <string.h>
 #include <iomanip>
@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 {
     bool showVis = false;
     G4int noEvents = 100000;
-    G4double dNeonBlockFront = 0.5 * mm;
-    G4String fileName = "500micron";
+    G4double dNeonBlockFront = 0.1 * mm;
+    G4String fileName = "100micron";
     G4double rNeonBlock = 1*cm;
     G4double dNeonBlockTotal = 1.5 * cm;
 
@@ -38,17 +38,17 @@ int main(int argc, char** argv)
     G4double E;
 
     int runNo = 0;
-    int noEnergies = 20;
-    G4double EStart = 100 * keV;
-    G4double EStep = 100 * keV;
-
+    int noEnergies = 31;
+    G4double EStartLog = -2.; // 10^... MeV
+    G4double EEndLog = 1.;   // 10^... MeV
+    runMan->SetUserInitialization(new DetectorConstruction(rNeonBlock, dNeonBlockFront, dNeonBlockTotal));
     G4UIExecutive* ui = new G4UIExecutive(argc, argv);
     G4UImanager* UImanager = G4UImanager::GetUIpointer();
     if (!showVis) {
         for (runNo = 0; runNo < noEnergies; ++runNo) {
-            E = EStart + runNo * EStep;
+            E = pow(10,((EEndLog - EStartLog) / (noEnergies-1) * runNo + EStartLog)) * MeV;
+            G4cout << "E: " << E << G4endl;
             runMan->SetUserInitialization(new MyActionInitialization(runNo, E, fileName));
-            runMan->SetUserInitialization(new DetectorConstruction(rNeonBlock, dNeonBlockFront, dNeonBlockTotal));
             runMan->Initialize();
             runMan->BeamOn(noEvents);
 
@@ -57,7 +57,6 @@ int main(int argc, char** argv)
     else {
         E = 0.5 * MeV;
         runMan->SetUserInitialization(new MyActionInitialization(runNo, E, fileName));
-        runMan->SetUserInitialization(new DetectorConstruction(rNeonBlock, dNeonBlockFront, dNeonBlockTotal));
         runMan->Initialize();
         G4VisManager* visManager = new G4VisExecutive();
         visManager->Initialize();

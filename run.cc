@@ -16,7 +16,7 @@ MyRunAction::MyRunAction(int argRunNo, G4String argFileName)
 
 	G4cout << "Run number: " << runNo << G4endl;
 	man = G4AnalysisManager::Instance();
-	man->SetVerboseLevel(3);
+	man->SetVerboseLevel(0);
 
 	fileName = argFileName + strRunID.str() + ".csv";
 	man->OpenFile(fileName);
@@ -36,13 +36,11 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
 void MyRunAction::EndOfRunAction(const G4Run* run) 
 {
 	man = G4AnalysisManager::Instance();
-	man->SetVerboseLevel(3);
+	man->SetVerboseLevel(0);
 
 	man->Write();
 	man->CloseFile();
 
 	G4int runID = run->GetRunID();
-	G4cout << "Finished run number with runID: " << runID << G4endl;
-	G4cout << "Finished run number with run number: " << runNo << G4endl;
 
 }
