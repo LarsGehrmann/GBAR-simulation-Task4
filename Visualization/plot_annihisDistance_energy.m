@@ -4,10 +4,10 @@ set(0,'defaultTextInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 set(0, 'defaultAxesTickLabelInterpreter','latex');
 
-noEnergies = 20;
-EStart = 100; % keV
-EStep = 100; % keV
-energies = EStart:EStep:EStart+(noEnergies-1)*EStep;
+noEnergies = 31;
+EStartLog = -2.; % MeV
+EEndLog = 1.; % MeV
+energies = logspace(EStartLog, EEndLog, noEnergies);
 
 
 modThickness = [100, 200, 500];
@@ -30,7 +30,7 @@ end
 colors = ["r", "b", "k"];
 figure
 for i=1:3
-    plot(energies / 1000, noAnnihisDistance(i,:), colors(i) + "X")
+    loglog(energies, noAnnihisDistance(i,:), colors(i) + "X")
     legendHelp(i) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m}$";
     hold on
 end

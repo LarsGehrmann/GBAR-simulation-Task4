@@ -4,11 +4,10 @@ set(0,'defaultTextInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 set(0, 'defaultAxesTickLabelInterpreter','latex');
 
-noEnergies = 20;
-EStart = 100; % keV
-EStep = 100; % keV
-energies = EStart:EStep:EStart+(noEnergies-1)*EStep;
-
+noEnergies = 31;
+EStartLog = -2.; % MeV
+EEndLog = 1.; % MeV
+energies = logspace(EStartLog, EEndLog, noEnergies);
 
 modThickness = [100, 200, 500]; % total moderator is 1cm thick, modThickness means front of moderator
 dirStart = "\\wsl.localhost\Ubuntu\home\lars\Geant4\Task4\build\";
@@ -27,9 +26,12 @@ end
 colors = ["r", "b", "k"];
 figure
 for i=1:3
-    semilogy(energies / 1000, noAnnihis(i,:), colors(i) + "X")
+    loglog(energies, noAnnihis(i,:), colors(i))
     legendHelp(i) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m}$";
+    %legendHelp(2*i) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m Quadratic fit}$";
+    %[X,Y] = myLinReg( log(energies'),log(noAnnihis(i,:)) );
     hold on
+    %plot(exp(X),exp(Y), colors(i))
 end
 legend(legendHelp)
 grid on
@@ -38,4 +40,5 @@ ylabel('$\textrm{No annihilations}$')
 titleHelp = {"$\textbf{No annihilations in neon-cylinder as a function of different }$",...
     "$\textbf{positron energies for different moderator front thicknesses}$"};
 title(titleHelp)
+
 end
