@@ -2,8 +2,12 @@
 
 clear all, clc, close all;
 
+x = 0.0794;
+yRight = 0.055164
+f(x)
 
-a = linspace(1,10,100);
-b = 2*linspace(1,10,100) + 3;
-
-loglog(a,b,'rX')
+function y = f(x)
+    k = 1.7329;
+    a = exp(1.4917);
+    y = a*x^k;
+end

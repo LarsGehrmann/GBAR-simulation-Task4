@@ -1,9 +1,7 @@
-function [X,Y,r2] = myLinReg(xVec, yVec)
+function [X,Y,r2,C] = myLinReg(xVec, yVec)
 
 
 C = polyfit(xVec,yVec,1);
-C(1)
-C(2)
 X = [min(xVec), max(xVec)];
 Y = [min(xVec)*C(1) + C(2), max(xVec)*C(1) + C(2)];
 
