@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 {
     bool showVis = false;
     G4int noEvents = 100000;
-    G4double dNeonBlockFront = 0.1 * mm;
-    G4String fileName = "100micron";
+    G4double dNeonBlockFront = 0.5 * mm;
+    G4String fileName = "500micron";
     G4double rNeonBlock = 1*cm;
     G4double dNeonBlockTotal = 1.5 * cm;
 

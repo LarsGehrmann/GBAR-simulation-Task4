@@ -1,7 +1,7 @@
 #include "construction.hh"
 
 
-DetectorConstruction::DetectorConstruction(G4double argRNeonBlock, G4double argDNeonBlockFront, G4double argDNeonBlockTotal)  // todo: * -> &
+DetectorConstruction::DetectorConstruction(G4double argRNeonBlock, G4double argDNeonBlockFront, G4double argDNeonBlockTotal)
 {
     rNeonBlock = argRNeonBlock;
     dNeonBlockFront = argDNeonBlockFront;
