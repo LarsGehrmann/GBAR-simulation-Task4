@@ -9,12 +9,16 @@ EStartLog = -2.; % MeV
 EEndLog = 1.; % MeV
 energies = logspace(EStartLog, EEndLog, noEnergies);
 
-modThickness = [100, 200, 500, 14000]; % total moderator is 1cm thick, modThickness means front of moderator
+modThickness = [15, 100, 200, 500, 14000]; % total moderator is 1cm thick, modThickness means front of moderator
+noThicknesses = length(modThickness);
+powLawRegionsStart = [6, 10, 11, 14, 24]; 
+powLawRegionsEnd = [23, 28, noEnergies, noEnergies, noEnergies];
+
 dirStart = "\\wsl.localhost\Ubuntu\home\lars\Geant4\Task4\build\";
 dirEnd = "_nt_Annihilations.csv";
 
 noAnnihis = zeros(4,noEnergies);
-for i=1:4
+for i=1:noThicknesses
     for j=0:noEnergies-1
         dir = dirStart + string(modThickness(i)) + "micron" + string(j) + dirEnd;
         M = dlmread(dir, ',', 8, 0);
@@ -23,14 +27,14 @@ for i=1:4
 end
 
 
-colors = ["r", "b", "k", "m"];
-powLawRegions = [10, 11, 14, 24];
+colors = ["r", "b", "k", "m","c"];
 noDecimals = 3;
 figure
-for i=1:4
+for i=1:noThicknesses
     loglog(energies, noAnnihis(i,:), colors(i)+"X")
-    [X,Y,R2,C] = myLinReg(log(energies(powLawRegions(i):end)),log(noAnnihis(i,(powLawRegions(i):end))));
+    [X,Y,R2,C] = myLinReg(log(energies(powLawRegionsStart(i):powLawRegionsEnd(i))),log(noAnnihis(i,(powLawRegionsStart(i):powLawRegionsEnd(i)))));
     format long
+    C
     format short
     R2 = round(10^noDecimals * R2) / 10^noDecimals;
     legendHelp(2*i-1) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m}$";
