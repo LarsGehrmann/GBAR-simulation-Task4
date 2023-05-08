@@ -11,16 +11,21 @@ energies = logspace(EStartLog, EEndLog, noEnergies);
 noDecimals = 4;
 
 
-modThickness = [100, 200, 500, 14000];
+modThickness = [15, 100, 200, 500, 14000];
+noThicknesses = length(modThickness);
 dirStart = "\\wsl.localhost\Ubuntu\home\lars\Geant4\Task4\build\";
 dirEnd = "_nt_Annihilations.csv";
 
-noAnnihisDistance = zeros(4,noEnergies);
-for i=1:4
+noAnnihisDistance = zeros(noThicknesses,noEnergies);
+for i=1:noThicknesses
     for j=0:noEnergies-1
         dir = dirStart + string(modThickness(i)) + "micron" + string(j) + dirEnd;
         M = dlmread(dir, ',', 8, 0);
-        for k=1:length(M)
+        sz = size(M);
+        if i == 1 && j == 30
+            a = 3;
+        end
+        for k=1:sz
             noAnnihisDistance(i,j+1) = noAnnihisDistance(i,j+1) + sqrt( (M(k,3)^2) ); % cylinder starts at z = 0 therefore distance is z-component
             %noAnnihisDistance(i,j+1) = noAnnihisDistance(i,j+1) + sqrt( (M(k,1)^2) + M(k,2)^2 );
         end
@@ -29,9 +34,9 @@ for i=1:4
 end
 
 
-colors = ["r", "b", "k", "m", "g"];
+colors = ["r", "b", "k", "m","c"];
 figure
-for i=1:4
+for i=1:noThicknesses
     loglog(energies, noAnnihisDistance(i,:), colors(i) + "X")
     legendHelp(i) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m}$";
     hold on
