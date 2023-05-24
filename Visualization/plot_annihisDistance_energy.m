@@ -1,5 +1,6 @@
 function plot_annihisDistance_energy()
-
+fontSizeLegend = 10;
+fontSizeAxes = 12;
 set(0,'defaultTextInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 set(0, 'defaultAxesTickLabelInterpreter','latex');
@@ -49,14 +50,18 @@ format short
 R2 = round(10^noDecimals*R2)/10^noDecimals;
 
 plot(exp(X),exp(Y),colors(end))
-legendHelp(end+1) = "$\textrm{Quadratic fit } r^2 = $" + string(R2);
+legendHelp(end+1) = "$\textrm{Fit: } r^2 = $" + string(R2);
 
-legend(legendHelp,'Location', 'Northwest')
+legend(legendHelp,'Location', 'South')
 grid on
 xlabel('$E / \textrm{MeV}$')
 ylabel('$\textrm{dist} / \textrm{mm}$')
 titleHelp = {"$\textbf{Average distances of annihlation locaitons to surface in neon-cylinder}$", ...
     "$\textbf{as a function of different positron energies for different}$",...
     "$\textbf{moderator front thicknesses}$"};
-title(titleHelp)
+%title(titleHelp)
+hLegend = findobj(gcf, 'Type', 'Legend');
+set(hLegend,'FontSize', fontSizeLegend)
+hAxis = findobj(gcf,'Type','Axes')
+set(hAxis,'FontSize', fontSizeAxes)
 end

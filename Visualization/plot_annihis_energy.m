@@ -1,5 +1,6 @@
 function plot_annihis_energy()
-
+fontSizeLegend = 10;
+fontSizeAxes = 12;
 set(0,'defaultTextInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 set(0, 'defaultAxesTickLabelInterpreter','latex');
@@ -38,7 +39,7 @@ for i=1:noThicknesses
     format short
     R2 = round(10^noDecimals * R2) / 10^noDecimals;
     legendHelp(2*i-1) = "$d\textrm{Front} = $" + string(modThickness(i)) + "$\mu \textrm{m}$";
-    legendHelp(2*i) = "$\textrm{Quadratic fit } r^2 = $" + string(R2);
+    legendHelp(2*i) = "$\textrm{Fit: } r^2 = $" + string(R2);
     hold on
     plot(exp(X),exp(Y), colors(i))
 end
@@ -48,6 +49,9 @@ xlabel('$E / \textrm{MeV}$')
 ylabel('$\textrm{No annihilations}$')
 titleHelp = {"$\textbf{No annihilations in neon-cylinder as a function of different }$",...
     "$\textbf{positron energies for different moderator front thicknesses}$"};
-title(titleHelp)
-
+%title(titleHelp)
+hLegend = findobj(gcf, 'Type', 'Legend');
+set(hLegend,'FontSize', fontSizeLegend)
+hAxis = findobj(gcf,'Type','Axes')
+set(hAxis,'FontSize', fontSizeAxes)
 end
